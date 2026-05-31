@@ -1,0 +1,215 @@
+<!-- <html>
+
+<head>
+
+    <title>Crud Application</title>
+    <link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+<link rel="shortcut icon" href="{{url_for('static', filename = 'teacher.png' )}}">
+
+
+</head>
+
+ <body> 
+
+
+ <div class="container">
+
+    <div class="well text-center">
+
+        <h1>Clinic Managment System</h1>
+
+
+    </div>  
+
+
+<style>
+   .navbar-custom { background-color: #1e293b !important; border: none !important; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 25px; border-radius: 6px !important; }
+   .navbar-custom .navbar-brand { color: #38bdf8 !important; font-weight: 700; transition: all 0.3s; }
+   .navbar-custom .nav > li > a { color: #cbd5e1 !important; font-weight: 500; transition: all 0.3s; }
+   .navbar-custom .nav > li > a:hover { background-color: rgba(255,255,255,0.05) !important; color: #fff !important; }
+   .navbar-custom .nav > li.active > a { background-color: #38bdf8 !important; color: #fff !important; border-radius: 4px; }
+   .navbar-custom .glyphicon { margin-right: 6px; }
+   body { background-image: url("https://1.bp.blogspot.com/-Aupx9jIp22k/T2bSff-77sI/AAAAAAAAAJs/gm0vhON1Cl4/s1600/white+background2.jpg"); background-size: cover; background-attachment: fixed; }
+</style>
+
+<nav class="navbar navbar-inverse navbar-custom">
+    <div class="container-fluid">
+        <div class="navbar-header"><a class="navbar-brand" href="/">CLINIC SYSTEM</a></div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li class="{% if request.endpoint == 'Index' %}active{% endif %}"><a href="/"><span class="glyphicon glyphicon-folder-open"></span> Departments</a></li> 
+                <li class="{% if request.endpoint == 'clinics' %}active{% endif %}"><a href="/clinics"><span class="glyphicon glyphicon-home"></span> Clinics</a></li>
+                <li class="{% if request.endpoint == 'doctors' %}active{% endif %}"><a href="/doctors"><span class="glyphicon glyphicon-user"></span> Doctors</a></li>
+                <li class="{% if request.endpoint == 'patients' %}active{% endif %}"><a href="/patients"><span class="glyphicon glyphicon-heart"></span> Patients</a></li>
+                <li class="{% if request.endpoint == 'appointments' %}active{% endif %}"><a href="/appointments"><span class="glyphicon glyphicon-calendar"></span> View Schedule View</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>     -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clinic Dashboard</title>
+    
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='teacher.png') }}">
+
+    <style>
+       body { 
+           background-image: url("https://media.istockphoto.com/id/1497833949/photo/summer-meadow.jpg?s=612x612&w=0&k=20&c=Z-bX2_duGz9gQ4ojqIMhzLdtGQfXx4vYTK8bpf-0V1E="); 
+           background-size: cover; 
+           background-attachment: fixed; 
+       }
+       
+       /* Large Dynamic Clickable Dashboard Banner Card */
+       .dashboard-banner-link {
+           display: block;
+           text-decoration: none !important;
+           background: #1e293b; /* Dark slate matching nav base */
+           padding: 20px;
+           border-radius: 8px;
+           margin-top: 25px;
+           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+           border-bottom: 4px solid #38bdf8;
+           transition: all 0.3s ease;
+       }
+       
+       .dashboard-banner-link:hover {
+           background: #1e293b;
+           box-shadow: 0 6px 25px rgba(56, 189, 248, 0.25);
+           transform: translateY(-1px);
+       }
+       
+       .dashboard-title {
+           margin: 0; 
+           font-weight: 800; 
+           color: #38bdf8; 
+           letter-spacing: 0.8px;
+           text-transform: uppercase;
+           font-size: 30px;
+           transition: all 0.3s ease;
+       }
+
+       .dashboard-banner-link:hover .dashboard-title {
+           color: #7dd3fc; 
+           text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+       }
+
+       /* Full-Width Evenly Distributed Navbar Matrix Row */
+       .navbar-custom { 
+           background-color: #1e293b !important; 
+           border: none !important; 
+           box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+           margin-top: 20px;
+           margin-bottom: 35px; 
+           border-radius: 6px !important; 
+           padding: 0 !important;
+       }
+       
+       /* Force items to align evenly in a row layout */
+       .navbar-flex-row {
+           display: flex !important;
+           width: 100%;
+           margin: 0 !important;
+           padding: 0 !important;
+           list-style: none;
+       }
+       
+       /* Make each item consume equal columns of available space */
+       .navbar-flex-row > li {
+           flex: 1 !important;
+           text-align: center !important;
+       }
+       
+       /* Maximize the internal anchor boundaries to span completely */
+       .navbar-flex-row > li > a { 
+           display: block !important;
+           color: #cbd5e1 !important; 
+           font-weight: 600; 
+           font-size: 15px;
+           padding: 18px 10px !important; /* Increased padding height */
+           margin: 0 !important;
+           border-radius: 0 !important;
+           transition: all 0.2s ease; 
+           text-overflow: ellipsis;
+           white-space: nowrap;
+           overflow: hidden;
+       }
+       
+       .navbar-flex-row > li > a:hover { 
+           background-color: rgba(255, 255, 255, 0.07) !important; 
+           color: #fff !important; 
+       }
+       
+       /* Left item matching custom boundary borders */
+       .navbar-flex-row > li:first-child > a {
+           border-top-left-radius: 6px !important;
+           border-bottom-left-radius: 6px !important;
+       }
+       
+       /* Right item matching custom boundary borders */
+       .navbar-flex-row > li:last-child > a {
+           border-top-right-radius: 6px !important;
+           border-bottom-right-radius: 6px !important;
+       }
+       
+       /* Active Link Highlight Expansion Block */
+       .navbar-flex-row > li.active > a { 
+           background-color: #38bdf8 !important; 
+           color: #fff !important; 
+           box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.15);
+       }
+       
+       .navbar-flex-row > li.active > a:hover {
+           background-color: #0ea5e9 !important;
+       }
+
+       .navbar-custom .glyphicon { 
+           margin-right: 8px; 
+           font-size: 16px;
+           vertical-align: -2px;
+       }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="{{ url_for('Index') }}" class="dashboard-banner-link text-center">
+        <h1 class="dashboard-title">
+            <span class="glyphicon glyphicon-th-large"></span> Clinic Dashboard
+        </h1>
+    </a>
+
+    <nav class="navbar navbar-inverse navbar-custom">
+        <div class="container-fluid" style="padding: 0;">
+            <ul class="nav navbar-nav navbar-flex-row">
+                <li class="{% if request.endpoint == 'Index' %}active{% endif %}">
+                    <a href="{{ url_for('Index') }}">
+                        <span class="glyphicon glyphicon-folder-open"></span> Departments
+                    </a>
+                </li>
+                <li class="{% if request.endpoint == 'clinics' %}active{% endif %}">
+                    <a href="{{ url_for('clinics') }}">
+                        <span class="glyphicon glyphicon-home"></span> Clinics
+                    </a>
+                </li>
+                <li class="{% if request.endpoint == 'doctors' %}active{% endif %}">
+                    <a href="{{ url_for('doctors') }}">
+                        <span class="glyphicon glyphicon-user"></span> Doctors
+                    </a>
+                </li>
+                <li class="{% if request.endpoint == 'patients' %}active{% endif %}">
+                    <a href="{{ url_for('patients') }}">
+                        <span class="glyphicon glyphicon-heart"></span> Patients
+                    </a>
+                </li>
+                <li class="{% if request.endpoint == 'appointments' %}active{% endif %}">
+                    <a href="{{ url_for('appointments') }}">
+                        <span class="glyphicon glyphicon-calendar"></span> Schedule View
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>

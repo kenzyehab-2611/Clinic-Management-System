@@ -1,0 +1,165 @@
+{% include "header.html" %}
+
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+
+<style>
+   body {
+       background-image: url("https://media.istockphoto.com/id/1497833949/photo/summer-meadow.jpg?s=612x612&w=0&k=20&c=Z-bX2_duGz9gQ4ojqIMhzLdtGQfXx4vYTK8bpf-0V1E=");
+       background-size: cover;
+       background-attachment: fixed;
+   }
+   /* Professional Modern Navbar Styling */
+   .navbar-custom {
+      background-color: #1e293b !important; /* Elegant slate dark background */
+      border: none !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Deep structural elevation shadow */
+      margin-bottom: 35px;
+      border-radius: 6px !important;
+   }
+
+   /* Brand Logo Formatting */
+   .navbar-custom .navbar-brand {
+      color: #38bdf8 !important; /* Cyan accent color */
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+   }
+
+   .navbar-custom .navbar-brand:hover {
+      color: #7dd3fc !important;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+   }
+
+   /* Navigation Links */
+   .navbar-custom .nav > li > a {
+      color: #cbd5e1 !important; /* Soft white/grey links */
+      font-weight: 500;
+      padding: 15px 20px;
+      transition: all 0.3s ease;
+   }
+
+   /* Hover State */
+   .navbar-custom .nav > li > a:hover,
+   .navbar-custom .nav > li > a:focus {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+      color: #ffffff !important;
+   }
+
+   /* Active State Link Highlight */
+   .navbar-custom .nav > li.active > a {
+      background-color: #38bdf8 !important; /* Accent background fill */
+      color: #ffffff !important;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(56, 189, 248, 0.4);
+   }
+
+   .navbar-custom .nav > li.active > a:hover {
+      background-color: #0ea5e9 !important;
+      color: #ffffff !important;
+   }
+
+   /* Icons Tuning */
+   .navbar-custom .glyphicon {
+      margin-right: 6px;
+      vertical-align: -1px;
+   }
+   .page-header-actions {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: 20px;
+       border-bottom: 2px solid #eee;
+       padding-bottom: 10px;
+   }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                <h2 style="margin: 0;">Clinic Rooms Management</h2>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addClinicModal"><span class="glyphicon glyphicon-plus"></span> Register Clinic Facility</button>
+            </div>
+
+            {% with messages = get_flashed_messages() %}{% if messages %}{% for message in messages %}
+            <div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert">×</button>{{ message }}</div>
+            {% endfor %}{% endif %}{% endwith %}
+
+            <table class="table table-striped" style="background-color: rgba(255,255,255,0.9); border-radius: 4px;">
+                <thead>
+                    <tr>
+                        <th>Clinic ID</th>
+                        <th>Room / Center Name</th>
+                        <th>Physical Location Address</th>
+                        <th>Governing Specialty Department</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in clinics %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td><span class="label label-info">{{ row.3 }}</span></td>
+                        <td class="text-center">
+                            <a href="#" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#editClinicModal{{ row.0 }}">Edit</a>
+                            <a href="/clinic/delete/{{ row.0 }}" class="btn btn-danger btn-xs" onclick="return confirm('Delete this facility instance?')">Delete</a>
+                        </td>
+                    </tr>
+
+                    <div id="editClinicModal{{ row.0 }}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header"><h4 class="modal-title">Modify Clinic Data</h4></div>
+                                <div class="modal-body">
+                                    <form action="/clinic/update" method="POST">
+                                        <input type="hidden" name="Clinic_ID" value="{{ row.0 }}">
+                                        <div class="form-group"><label>Clinic Name:</label><input type="text" class="form-control" name="Name" value="{{ row.1 }}" required></div>
+                                        <div class="form-group"><label>Address Location:</label><input type="text" class="form-control" name="Address" value="{{ row.2 }}" required></div>
+                                        <div class="form-group">
+                                            <label>Assign Specialty Department Parent:</label>
+                                            <select class="form-control" name="Department_ID">
+                                                {% for d in departments %}
+                                                <option value="{{ d.0 }}" {% if d.0 == row.4 %}selected{% endif %}>{{ d.1 }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="addClinicModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title">Register New Clinic Unit</h4></div>
+                <div class="modal-body">
+                    <form action="/clinic/insert" method="POST">
+                        <div class="form-group"><label>Clinic Unique ID Number (Manual PK):</label><input type="number" class="form-control" name="Clinic_ID" required></div>
+                        <div class="form-group"><label>Clinic Name:</label><input type="text" class="form-control" name="Name" placeholder="e.g., Suite 401 Pediatrics" required></div>
+                        <div class="form-group"><label>Address:</label><input type="text" class="form-control" name="Address" required></div>
+                        <div class="form-group">
+                            <label>Managing Department:</label>
+                            <select class="form-control" name="Department_ID">
+                                {% for d in departments %}
+                                <option value="{{ d.0 }}">{{ d.1 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-success" type="submit">Deploy Facility</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

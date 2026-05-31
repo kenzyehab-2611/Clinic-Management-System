@@ -1,0 +1,56 @@
+{% include "header.html" %}
+
+<link href="{{url_for('static', filename = 'css/bootstrap.min.css')}}" rel="stylesheet">
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <h2> 
+                Upcoming Appointments Schedule View
+                <a href="{{ url_for('Index') }}" class="btn btn-primary pull-right">Back to Departments</a>
+            </h2>
+
+            <table class="table table-striped table-hoverwell">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>Patient Name</th>
+                        <th>Doctor Name</th>
+                        <th>Department</th>
+                        <th>Cost (EGP)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in appointments %}
+                    <tr>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td>{{ row.3 }}</td>
+                        <td>{{ row.4 }}</td>
+                        <td>{{ row.5 }}</td>
+                        <td><strong>${{ row.6 }}</strong></td>
+                        <td>
+                            {% if row.7 == 'Scheduled' %}
+                                <span class="label label-info">Scheduled</span>
+                            {% elif row.7 == 'In Progress' %}
+                                <span class="label label-warning">In Progress</span>
+                            {% else %}
+                                <span class="label label-danger">Postponed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
